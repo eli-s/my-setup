@@ -1,0 +1,18 @@
+---
+- name: Setup workstation
+  hosts: localhost
+  connection: local
+
+  pre_tasks:
+  - name: Detect OS
+    ansible.builtin.set_fact:
+      is_macos: "{{ ansible_os_family == 'Darwin' }}"
+      is_ubuntu: "{{ ansible_distribution = 'Ubuntu' }}"
+  
+  roles:
+  - role: common
+  - role: macos
+    when: is_macos
+  - role: ubuntu
+    when: is_ubuntu
+  

@@ -1,0 +1,16 @@
+---
+common_packages:
+  - git
+  - curl
+  - vim
+  - wget
+  - tmux
+  - htop
+
+macos_casks:
+  - visual-studio-code
+  - ghostty
+
+ubuntu_packages:
+  - build-essential
+  - snapd

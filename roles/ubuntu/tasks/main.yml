@@ -1,0 +1,14 @@
+---
+- name: Install Ubuntu-specific packages
+  ansible.builtin.apt:
+    name: "{{ ubuntu_packages }}"
+    state: present
+  become: yes
+
+- name: Install Snaps
+  community.general.snap:
+    name:
+      - code
+      - spotify
+    state: present
+  become: yes

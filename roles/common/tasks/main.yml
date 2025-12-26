@@ -1,0 +1,13 @@
+---
+- name: Install common packages (macOS)
+  community.general.homebrew:
+    name: "{{ common_packages }}"
+    state: present
+  when: is_macos
+- name: Install common packages (Ubuntu)
+  ansible.builtin.apt:
+    name: "{{ common_packages }}"
+    state: present
+    update_cache: yes
+  become: yes
+  when: is_ubuntu
