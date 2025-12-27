@@ -6,7 +6,7 @@ set -e
 echo "=== Initial setup script ==="
 
 # check if user is not root
-if [ "$(whoami)" != "root"] then
+if [ "$(whoami)" != "root" ]; then
     # exit if sudo is not available or user is not root
     if ! command -v sudo &> /dev/null; then
        echo "sudo is not available. Exiting."
