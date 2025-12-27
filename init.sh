@@ -57,11 +57,11 @@ REPO="https://github.com/eli-s/my-setup.git"
 
 # Only ask for become password if not root and sudo requires password
 if [[ $EUID -eq 0 ]]; then
-    ansible-pull -U "$REPO" main.yml
+    ansible-pull -U "$REPO" main.yml -v
 elif sudo -n true 2>/dev/null; then
     # Passwordless sudo works
-    ansible-pull -U "$REPO" main.yml
+    ansible-pull -U "$REPO" main.yml -v
 else
     # Need to ask for password
-    ansible-pull -U "$REPO" main.yml --ask-become-pass
+    ansible-pull -U "$REPO" main.yml -v --ask-become-pass
 fi
