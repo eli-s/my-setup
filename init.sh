@@ -5,14 +5,16 @@ clear
 set -e
 echo "=== Initial setup script ==="
 
-# check if user is not root
-if [ "$(whoami)" != "root" ]; then
-    # exit if sudo is not available or user is not root
-    if ! command -v sudo &> /dev/null; then
-       echo "sudo is not available. Exiting."
-       exit 1
-    fi
+if [ $EUID -eq 0 ]; then
+    SUDO=""
+    echo "Running as root"
+elif command -v sudo &> /dev/null; then
+    SUDO="sudo"
+    echo "Using sudo"
     sudo -v
+else
+    echo "No privileges to run this script, and sudo is not available. Exiting."
+    exit 1
 fi
 
 # Install Ansible
@@ -26,14 +28,14 @@ if ! command -v ansible &> /dev/null; then
         fi
         brew install ansible age sops
     elif [ -f /etc/os-release ] && grep -q "Ubuntu" /etc/os-release; then
-        sudo apt install -y software-properties-common
-        sudo add-apt-repository --yes --update ppa:ansible/ansible
-        sudo apt update
-        sudo apt install -y ansible age
-        sudo apt autoremove -y
+        $SUDO apt install -y software-properties-common
+        $SUDO add-apt-repository --yes --update ppa:ansible/ansible
+        $SUDO apt update
+        $SUDO apt install -y ansible age
+        $SUDO apt autoremove -y
 
         if ! command -v curl &> /dev/null; then
-            sudo apt install -y curl
+            $SUDO apt install -y curl
         fi
 
         LATEST_URL=$(curl -sL -o /dev/null -w "%{url_effective}" "https://github.com/getsops/sops/releases/latest")
@@ -42,7 +44,7 @@ if ! command -v ansible &> /dev/null; then
         # Install SOPS
         curl -LO "https://github.com/getsops/sops/releases/download/$SOPS_VERSION/sops-$SOPS_VERSION.linux.amd64"
         mv "sops-$SOPS_VERSION.linux.amd64" /usr/local/bin/sops
-        sudo chmod +x /usr/local/bin/sops
+        $SUDO chmod +x /usr/local/bin/sops
     else
         echo "Unsupported OS" 
         exit 1
