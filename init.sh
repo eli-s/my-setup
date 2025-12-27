@@ -31,7 +31,7 @@ if ! command -v ansible &> /dev/null; then
         $SUDO apt install -y software-properties-common
         $SUDO add-apt-repository --yes --update ppa:ansible/ansible
         $SUDO apt update
-        $SUDO apt install -y ansible age
+        $SUDO apt install -y git ansible age
         $SUDO apt autoremove -y
 
         if ! command -v curl &> /dev/null; then
