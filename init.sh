@@ -36,14 +36,15 @@ if ! command -v ansible &> /dev/null; then
             sudo apt install -y curl
         fi
 
-        SOPS_VERSION="${$(curl -sL -o /dev/null -w "%{url_effective}" "https://github.com/getsops/sops/releases/latest")##*/tag/}"
+        LATEST_URL=$(curl -sL -o /dev/null -w "%{url_effective}" "https://github.com/getsops/sops/releases/latest")
+        SOPS_VERSION="${LATEST_URL##*/tag/}"
 
         # Install SOPS
         curl -LO "https://github.com/getsops/sops/releases/download/$SOPS_VERSION/sops-$SOPS_VERSION.linux.amd64"
-        mv sops-v3.11.0.linux.amd64 /usr/local/bin/sops
+        mv "sops-$SOPS_VERSION.linux.amd64" /usr/local/bin/sops
         sudo chmod +x /usr/local/bin/sops
     else
-        echo "Unsupported OS"
+        echo "Unsupported OS" 
         exit 1
     fi
 else
