@@ -2,6 +2,7 @@
 - name: Setup workstation
   hosts: localhost
   connection: local
+  gather_facts: yes
 
   vars_prompt:
   - name: setup_secrets
