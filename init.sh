@@ -4,8 +4,16 @@ clear
 
 set -e
 echo "=== Initial setup script ==="
-echo "This script requires sudo access."
-sudo -v
+
+# check if user is not root
+if [ "$(whoami)" != "root"] then
+    # exit if sudo is not available or user is not root
+    if ! command -v sudo &> /dev/null; then
+       echo "sudo is not available. Exiting."
+       exit 1
+    fi
+    sudo -v
+fi
 
 # Install Ansible
 if ! command -v ansible &> /dev/null; then
