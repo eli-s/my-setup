@@ -13,16 +13,20 @@ if ! command -v ansible &> /dev/null; then
     if [ "$(uname)" = "Darwin" ]; then
         if ! command -v brew &> /dev/null; then
             echo "Installing Homebrew"
-            xcode-select --install 
+            xcode-select --install 2>/dev/null || true
             /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         fi
         brew install ansible age sops
     elif [ -f /etc/os-release ] && grep -q "Ubuntu" /etc/os-release; then
-        sudo apt update
         sudo apt install -y software-properties-common
         sudo add-apt-repository --yes --update ppa:ansible/ansible
+        sudo apt update
         sudo apt install -y ansible age
         sudo apt autoremove -y
+
+        if ! command -v curl &> /dev/null; then
+            sudo apt install -y curl
+        fi
 
         SOPS_VERSION="${$(curl -sL -o /dev/null -w "%{url_effective}" "https://github.com/getsops/sops/releases/latest")##*/tag/}"
 
