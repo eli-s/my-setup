@@ -24,6 +24,12 @@
     shell: /bin/zsh
   become: yes
 
+- name: Create .config directory
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.config"
+    state: directory
+    mode: '0755'
+
 - name: Create .zshrc
   ansible.builtin.template:
     src: zshrc.j2
