@@ -1,0 +1,31 @@
+[user]
+    name = {{ git_user_name | default('EliS') }}
+    email = {{ git_user_email | default('EliS@local') }}
+
+[init]
+    defaultBranch = master
+
+[pull]
+    rebase = false
+
+[push]
+    autoSetupRemote = true
+
+[core]
+    editor = nvim
+    autocrlf = input
+
+[alias]
+    st = status
+    co = checkout
+    br = branch
+    ci = commit
+    lg = log --oneline --graph --decorate
+    unstage = reset HEAD --
+    last = log -1 HEAD
+
+[diff]
+    colorMoved = default
+
+[merge]
+    conflictstyle = diff3
