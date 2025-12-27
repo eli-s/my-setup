@@ -20,14 +20,14 @@
 
 - name: Set zsh as default shell
   ansible.builtin.user:
-    name: "{{ ansible_env.USER }}"
+    name: "{{ ansible_user_id }}"
     shell: /bin/zsh
   become: yes
 
 - name: Create .zshrc
   ansible.builtin.template:
     src: zshrc.j2
-    dest: "{{ ansible_env.HOME }}/.zshrc"
+    dest: "{{ ansible_user_dir }}/.zshrc"
     mode: '0644'
 
 - name: Create starship config

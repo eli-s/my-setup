@@ -1,6 +1,6 @@
 ---
-dotfiles_dir: "{{ ansible_env.HOME }}/.dotfiles"
-config_dir: "{{ ansible_env.HOME }}/.config"
+dotfiles_dir: "{{ ansible_user_dir }}/.dotfiles"
+config_dir: "{{ ansible_user_dir }}/.config"
 
 common_packages:
   - git
