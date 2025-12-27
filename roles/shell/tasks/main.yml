@@ -12,11 +12,21 @@
     state: present
   when: is_macos
 
-- name: Install starship prompt
+- name: Check if oh-my-zsh is installed
+  ansible.builtin.stat:
+    path: "{{ ansible_user_dir }}/.oh-my-zsh"
+  register: ohmyzsh
+
+- name: Install oh-my-zsh
   ansible.builtin.shell: |
-    curl -sS https://starship.rs/install.sh | sh -s -- -y
-  args:
-    creates: /usr/local/bin/starship
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/master/tools/install.sh)" "" --unattended
+  when: not ohmyzsh.stat.exists
+
+- name: Clone powerlevel10k to oh-my-zsh themes
+  ansible.builtin.git:
+    repo: https://github.com/romkatv/powerlevel10k.git
+    dest: "{{ ansible_user_dir }}/.oh-my-zsh/custom/themes/powerlevel10k"
+    depth: 1
 
 - name: Set zsh as default shell
   ansible.builtin.user:
@@ -36,8 +46,8 @@
     dest: "{{ ansible_user_dir }}/.zshrc"
     mode: '0644'
 
-- name: Create starship config
+- name: Copy p10k config
   ansible.builtin.copy:
-    src: starship.toml
-    dest: "{{ config_dir }}/starship.toml"
+    src: p10k.zsh
+    dest: "{{ ansible_user_dir }}/.p10k.zsh"
     mode: '0644'
