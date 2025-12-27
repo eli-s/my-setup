@@ -1,0 +1,26 @@
+---
+- name: Install Neovim (macOS)
+  community.general.homebrew:
+    name: neovim
+    state: present
+  when: is_macos
+
+- name: Install Neovim (Ubuntu)
+  ansible.builtin.apt:
+    name: neovim
+    state: present
+  become: yes
+  when: is_ubuntu
+
+- name: Create nvim config directory
+  ansible.builtin.file:
+    path: "{{ config_dir }}/nvim"
+    state: directory
+    mode: '0755'
+
+- name: Clone kickstart.nvim (or your config)
+  ansible.builtin.git:
+    repo: https://github.com/nvim-lua/kickstart.nvim.git
+    dest: "{{ config_dir }}/nvim"
+    version: master
+    force: no

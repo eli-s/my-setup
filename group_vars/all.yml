@@ -1,11 +1,25 @@
 ---
+dotfiles_dir: "{{ ansible_env.HOME }}/.dotfiles"
+config_dir: "{{ ansible_env.HOME }}/.config"
+
 common_packages:
   - git
   - curl
-  - vim
   - wget
-  - tmux
+  - ripgrep
+  - fd
+  - fzf
+  - jq
+  - tree
   - htop
+  - lazygit
+
+dev_languages:
+  - node
+  - python
+  - go
+  - rust
+  - java
 
 macos_casks:
   - visual-studio-code
@@ -14,3 +28,5 @@ macos_casks:
 ubuntu_packages:
   - build-essential
   - snapd
+  - libssl-dev
+  - pkg-config

@@ -1,0 +1,24 @@
+---
+- name: Install Ghostty (macOS)
+  community.general.homebrew_cask:
+    name: ghostty
+    state: present
+  when: is_macos
+
+- name: Install Ghostty (Ubuntu)
+  ansible.builtin.shell: |
+    # Ghostty build from source or package — adjust as needed
+    echo "Install Ghostty manually or from PPA"
+  when: is_ubuntu
+
+- name: Create Ghostty config directory
+  ansible.builtin.file:
+    path: "{{ config_dir }}/ghostty"
+    state: directory
+    mode: '0755'
+
+- name: Copy Ghostty config
+  ansible.builtin.copy:
+    src: ghostty/config
+    dest: "{{ config_dir }}/ghostty/config"
+    mode: '0644'

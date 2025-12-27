@@ -3,6 +3,12 @@
   hosts: localhost
   connection: local
 
+  vars_prompt:
+  - name: setup_secrets
+    prompt: "Decrypt and install secrets? (yes/no)"
+    default: "no"
+    private: no
+
   pre_tasks:
   - name: Detect OS
     ansible.builtin.set_fact:
@@ -15,4 +21,9 @@
     when: is_macos
   - role: ubuntu
     when: is_ubuntu
-  
+  - role: shell
+  - role: terminal
+  - role: neovim
+  - role: dev-tools
+  - role: secrets
+    when: setup_secrets | bool

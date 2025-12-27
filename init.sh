@@ -16,13 +16,20 @@ if ! command -v ansible &> /dev/null; then
             xcode-select --install 
             /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         fi
-        brew install ansible
+        brew install ansible age sops
     elif [ -f /etc/os-release ] && grep -q "Ubuntu" /etc/os-release; then
         sudo apt update
         sudo apt install -y software-properties-common
         sudo add-apt-repository --yes --update ppa:ansible/ansible
-        sudo apt install -y ansible
+        sudo apt install -y ansible age
         sudo apt autoremove -y
+
+        SOPS_VERSION="${$(curl -sL -o /dev/null -w "%{url_effective}" "https://github.com/getsops/sops/releases/latest")##*/tag/}"
+
+        # Install SOPS
+        curl -LO "https://github.com/getsops/sops/releases/download/$SOPS_VERSION/sops-$SOPS_VERSION.linux.amd64"
+        mv sops-v3.11.0.linux.amd64 /usr/local/bin/sops
+        sudo chmod +x /usr/local/bin/sops
     else
         echo "Unsupported OS"
         exit 1

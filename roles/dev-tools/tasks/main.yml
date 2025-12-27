@@ -1,0 +1,32 @@
+---
+- name: Install mise (version manager)
+  ansible.builtin.shell: |
+    curl https://mise.run | sh
+  args:
+    creates: "{{ ansible_env.HOME }}/.local/bin/mise"
+
+- name: Install languages via mise
+  ansible.builtin.shell: |
+    ~/.local/bin/mise use --global {{ item }}@latest
+  loop: "{{ dev_languages }}"
+
+- name: Install Docker (macOS)
+  community.general.homebrew_cask:
+    name: docker
+    state: present
+  when: is_macos
+
+- name: Install Docker (Ubuntu)
+  ansible.builtin.apt:
+    name:
+      - docker.io
+      - docker-compose
+    state: present
+  become: yes
+  when: is_ubuntu
+
+- name: Copy .gitconfig
+  ansible.builtin.template:
+    src: gitconfig.j2
+    dest: "{{ ansible_env.HOME }}/.gitconfig"
+    mode: '0644'

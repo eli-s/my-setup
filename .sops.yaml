@@ -1,0 +1,4 @@
+creation_rules:
+  - path_regex: secrets/.*\.yml$
+    age: >-
+      age1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
