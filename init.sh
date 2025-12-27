@@ -65,3 +65,5 @@ else
     # Need to ask for password
     ansible-pull -U "$REPO" main.yml -v --ask-become-pass
 fi
+
+zsh
