@@ -13,7 +13,7 @@
   - name: Detect OS
     ansible.builtin.set_fact:
       is_macos: "{{ ansible_os_family == 'Darwin' }}"
-      is_ubuntu: "{{ ansible_distribution = 'Ubuntu' }}"
+      is_ubuntu: "{{ ansible_distribution == 'Ubuntu' }}"
   
   roles:
   - role: common
