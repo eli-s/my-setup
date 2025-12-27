@@ -1,0 +1,46 @@
+# ~/.zshrc
+
+# History
+HISTFILE=~/.histfile
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_dups
+
+# Basic options
+setopt autocd
+setopt interactive_comments
+
+# Path
+export PATH="$HOME/.local/bin:$PATH"
+
+# Mise (version manager)
+if command -v mise &> /dev/null; then
+    eval "$(mise activate zsh)"
+fi
+
+# Starship prompt
+if command -v starship &> /dev/null; then
+    eval "$(starship init zsh)"
+fi
+
+# Aliases
+alias ll='ls -la'
+alias la='ls -A'
+alias l='ls -CF'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias g='git'
+alias gs='git status'
+alias gd='git diff'
+alias gc='git commit'
+alias gp='git push'
+alias gl='git pull'
+alias v='nvim'
+alias vim='nvim'
+
+# FZF
+if command -v fzf &> /dev/null; then
+    source <(fzf --zsh)
+fi
