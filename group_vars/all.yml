@@ -7,7 +7,6 @@ common_packages:
   - curl
   - wget
   - ripgrep
-  - fd
   - fzf
   - jq
   - tree
